@@ -1,0 +1,52 @@
+package com.erya.application;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+final public class Cell_class extends Cell {
+    @NonNull
+    public String name;
+
+    Cell_class(@NonNull String name) {
+        super(ViewType.CLASS);
+        this.name = name;
+    }
+
+    @Nullable
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isSame(@NonNull final Cell other) {
+        if (this.getViewType() != other.getViewType()) {
+            return false;
+        }
+        return this.equals(other);
+    }
+
+    @Override
+    public boolean isContentsSame(@NonNull final Cell other) {
+        return this.equals(other);
+    }
+
+    @Override
+    @SuppressWarnings({"SimplifiableIfStatement", "RedundantIfStatement"})
+    public boolean equals(final Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cell_class cell1 = (Cell_class) o;
+        return (name == cell1.getName());
+    }
+
+    @Override
+    public int hashCode(){
+        return name.hashCode();
+    }
+
+    @Override
+    @NonNull
+    public String toString() {
+        return name.toString();
+    }
+}
