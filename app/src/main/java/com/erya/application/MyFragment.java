@@ -80,8 +80,7 @@ public final class MyFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final List<Cell> cells) {
                 if (cells == null) {
-                    System.out.println("111144");
-                  //  recyclerView.setVisibility(BUT);
+
                    return;
                 }
                 final RecyclerView.Adapter adapter = recyclerView.getAdapter();
@@ -105,7 +104,8 @@ public final class MyFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final String error) {
 
-                Snackbar.make(view, "error", Snackbar.LENGTH_LONG).show();
+                assert error != null;
+                Snackbar.make(view, error, Snackbar.LENGTH_LONG).show();
             }
         });
 

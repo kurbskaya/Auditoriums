@@ -112,6 +112,7 @@ public final class MyViewModel extends ViewModel {
 
     @NonNull
     public LiveData<String> getError() {
+
         return errorLiveData;
     }
 

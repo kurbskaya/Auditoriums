@@ -1,6 +1,7 @@
 package com.erya.application;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,17 @@ final public class ClassMyTripsHolder extends AbsMyTripsHolder {
     ClassMyTripsHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent) {
         super(inflater.inflate(R.layout.list1, parent, false));
         textView = itemView.findViewById(R.id.label);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = textView.getText().toString();
+
+                    MyFragment.getMyViewModel().SetErrorLiveData("clicked on " + name);
+
+
+
+            }
+        });
     }
 
     public void bind(@NonNull final Cell cell) {

@@ -25,7 +25,7 @@ final class ButMyTripsHolder extends AbsMyTripsHolder {
   ButMyTripsHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent) {
 
         super(inflater.inflate(R.layout.list2, parent, false));
-        idText = (EditText) itemView.findViewById(R.id.idtext);
+        idText =  itemView.findViewById(R.id.idtext);
         button1 = itemView.findViewById(R.id.button1);
 
         button1.setOnClickListener(new View.OnClickListener() {
@@ -34,15 +34,14 @@ final class ButMyTripsHolder extends AbsMyTripsHolder {
                 String name = idText.getText().toString();
 
                 if (name.equals("")) {
-                    MyFragment.getMyViewModel().SetErrorLiveData("error");
-                    System.out.println("error");
+                    MyFragment.getMyViewModel().SetErrorLiveData("empty enter");
                     return;
                 }
 
                 Cell_class cell_class = new Cell_class(name);
                 MyFragment.getMyViewModel().create(cell_class);
 
-                idText.setText(null);;
+                idText.setText(null);
             }
         });
 
@@ -58,7 +57,7 @@ final class ButMyTripsHolder extends AbsMyTripsHolder {
     }
 
     public void bind(@NonNull final Cell cell) {
-        //    textView.setText(cell.toString());
+
     }
 
 }
