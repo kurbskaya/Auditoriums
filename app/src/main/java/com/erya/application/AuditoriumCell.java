@@ -3,11 +3,11 @@ package com.erya.application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-final public class Cell_class extends Cell {
+final public class AuditoriumCell extends AbsCell {
     @NonNull
     public String name;
 
-    Cell_class(@NonNull String name) {
+    AuditoriumCell(@NonNull String name) {
         super(ViewType.CLASS);
         this.name = name;
     }
@@ -18,7 +18,7 @@ final public class Cell_class extends Cell {
     }
 
     @Override
-    public boolean isSame(@NonNull final Cell other) {
+    public boolean isSame(@NonNull final AbsCell other) {
         if (this.getViewType() != other.getViewType()) {
             return false;
         }
@@ -26,7 +26,7 @@ final public class Cell_class extends Cell {
     }
 
     @Override
-    public boolean isContentsSame(@NonNull final Cell other) {
+    public boolean isContentsSame(@NonNull final AbsCell other) {
         return this.equals(other);
     }
 
@@ -35,7 +35,7 @@ final public class Cell_class extends Cell {
     public boolean equals(final Object o){
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cell_class cell1 = (Cell_class) o;
+        AuditoriumCell cell1 = (AuditoriumCell) o;
         return (name == cell1.getName());
     }
 

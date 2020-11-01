@@ -3,16 +3,16 @@ package com.erya.application;
 import androidx.annotation.NonNull;
 
 
-public abstract class Cell implements Diffable<Cell> {
+public abstract class AbsCell implements Diffable<AbsCell> {
     public enum ViewType {
-        BUT,
+        BUTTONS,
         CLASS
     }
 
     @NonNull
     private final ViewType viewType;
 
-    Cell(@NonNull final ViewType viewType) {
+    AbsCell(@NonNull final ViewType viewType) {
         this.viewType = viewType;
     }
 
@@ -27,8 +27,8 @@ public abstract class Cell implements Diffable<Cell> {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cell cell1 = (Cell) o;
-        return (viewType == cell1.getViewType());
+        AbsCell absCell1 = (AbsCell) o;
+        return (viewType == absCell1.getViewType());
     }
 
     @Override

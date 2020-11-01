@@ -9,9 +9,9 @@
 
     <fragment
         android:id="@+id/fr"
-        class="com.erya.application.MyFragment"
+        class="com.erya.application.AuditoriumFragment"
         android:layout_width="match_parent"
-        android:layout_height="298dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         tools:layout="@layout/frag" />
 
