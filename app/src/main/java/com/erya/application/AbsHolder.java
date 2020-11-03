@@ -11,6 +11,5 @@ public abstract class AbsHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public abstract void bind(@NonNull final AbsCell absCell);{
-    }
+    public abstract void bind(@NonNull final AbsCell absCell);
 }

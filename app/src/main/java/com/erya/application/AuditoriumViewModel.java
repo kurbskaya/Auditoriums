@@ -1,6 +1,7 @@
 package com.erya.application;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,56 +10,73 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.erya.application.AbsCell.ViewType.BUTTONS;
 
-public final class AuditoriumViewModel extends ViewModel{
+public final class AuditoriumViewModel extends ViewModel implements AuditoriumAdapter.OnClickListener{
 
     private final SingleEventLiveData<String> errorLiveData = new SingleEventLiveData<>();
-    private MutableLiveData<List<AbsCell>> cells = new MutableLiveData<>();
+    private MutableLiveData<List<AbsCell>> cellsLiveData = new MutableLiveData<>();
 
-
-    public void reset(AbsCell absCell){
-        ButtonsCell buttonsCell = new ButtonsCell(BUTTONS);
-        List<AbsCell> tmp = cells.getValue();
-        if (tmp == null) {
-            tmp = new ArrayList<>();
+    public void addCell(@Nullable AbsCell absCell){
+        final ButtonsCell buttonsCell = new ButtonsCell();
+        final List<AbsCell> oldList = cellsLiveData.getValue();
+        if (oldList == null) {
+            final  List<AbsCell> tmp = new ArrayList<>();
             tmp.add(buttonsCell);
-            cells.setValue(tmp);
+            cellsLiveData.setValue(tmp);
             return;
         }
-        if (absCell ==null) {return;}
-        tmp.add(absCell);
-        cells.setValue(tmp);
+        if (absCell ==null) { return; }
+        oldList.add(absCell);
+        cellsLiveData.setValue(oldList);
     }
 
-    public void SetErrorLiveData(String string){
+    public void setErrorLiveData(String string){
         errorLiveData.setValue(string);
     }
 
     @NonNull
     public void clearCells() {
-        super.onCleared();
-        List<AbsCell> tmp = cells.getValue();
-        int i2 = 0;
-        for (int i1 = 0; i1 < tmp.size(); i1++) {
-            if (tmp.get(i1).getViewType() == BUTTONS) {
-                tmp.set(i2, tmp.get(i1));
-                i2++;
-            }
-        }
-        if (tmp.size() > i2) {
-            tmp.subList(i2, tmp.size()).clear();
-        }
-        cells.setValue(tmp);
+        final ButtonsCell buttonsCell = new ButtonsCell();
+        final List<AbsCell> tmp = new ArrayList<>();
+
+        tmp.add(buttonsCell);
+        cellsLiveData.setValue(tmp);
     }
 
     @NonNull
-    public LiveData<List<AbsCell>> getCells() {
-        return cells;
+    public LiveData<List<AbsCell>> getCellsLiveData() {
+        return cellsLiveData;
     }
 
     @NonNull
-    public LiveData<String> getError() {
+    public LiveData<String> getErrorLiveData() {
         return errorLiveData;
     }
 
 
+    @Override
+    final public void onClickButton(@NonNull AbsCell cell) {
+        this.addCell(cell);
+    }
+
+    @Override
+    final public void onClickItem(@NonNull AuditoriumCell audCell) {
+        this.setErrorLiveData(audCell.name);
+    }
+
+    @Override
+    final public void onClickButClear() {
+        this.clearCells();
+    }
+
+    @Override
+    final public void onNameTextChanged(String text){
+        final List<AbsCell> oldList = cellsLiveData.getValue();
+        final ButtonsCell cell = (ButtonsCell) oldList.get(0);
+        cell.setNameFieldText(text);
+    }
+
+    @Override
+    final public void onClickError(String text){
+        this.setErrorLiveData(text);
+    }
 }

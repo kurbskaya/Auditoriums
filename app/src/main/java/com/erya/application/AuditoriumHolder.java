@@ -6,28 +6,35 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 final public class AuditoriumHolder extends AbsHolder {
 
     private final TextView textView;
-    private final AuditoriumAdapter.OnClickListener onClickListener;
 
-    AuditoriumHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final AuditoriumAdapter.OnClickListener onClickListener) {
-        super(inflater.inflate(R.layout.list1, parent, false));
-        this.onClickListener = onClickListener;
+    @Nullable
+    private AuditoriumCell cell = null;
+
+    AuditoriumHolder(@NonNull final LayoutInflater inflater,
+                     @NonNull final ViewGroup parent,
+                     final AuditoriumAdapter.OnClickListener onClickListener) {
+        super(inflater.inflate(R.layout.view_auditorium, parent, false));
         textView = itemView.findViewById(R.id.label);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = textView.getText().toString();
-                onClickListener.onClickItem(name);
+                if (cell == null) {
+                    return;
+                }
+                onClickListener.onClickItem(cell);
             }
         });
     }
 
     public void bind(@NonNull final AbsCell absCell) {
-        AuditoriumCell audCell = (AuditoriumCell) absCell;
+        final AuditoriumCell audCell = (AuditoriumCell) absCell;
+        this.cell = audCell;
         textView.setText(audCell.getName());
 
     }

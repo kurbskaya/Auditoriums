@@ -33,7 +33,7 @@ public final class AuditoriumAdapter extends AbsDiffableListAdapter<AbsCell, Abs
         final AbsCell.ViewType viewType = viewTypeValues[viewTypeOrdinal];
         switch (viewType) {
             case BUTTONS:
-                return new ButHolder(inflater, parent, onClickListener);
+                return new ButtonHolder(inflater, parent, onClickListener);
             case CLASS:
                 return new AuditoriumHolder(inflater, parent, onClickListener);
 
@@ -53,9 +53,12 @@ public final class AuditoriumAdapter extends AbsDiffableListAdapter<AbsCell, Abs
     }
 
     public interface OnClickListener {
-        void onClickButton(AbsCell absCell);
-        void onClickItem(String string);
+        void onClickButton(@NonNull AbsCell absCell);
+        void onClickItem(@NonNull AuditoriumCell audCell);
         void onClickButClear();
+
+        void onNameTextChanged(String text);
+        void onClickError(String text);
     }
 
 }

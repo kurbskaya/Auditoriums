@@ -5,23 +5,20 @@ import androidx.annotation.Nullable;
 
 final public class AuditoriumCell extends AbsCell {
     @NonNull
-    public String name;
+    public final String name;
 
-    AuditoriumCell(@NonNull String name) {
+    AuditoriumCell(@NonNull final String name) {
         super(ViewType.CLASS);
         this.name = name;
     }
 
-    @Nullable
+    @NonNull
     public String getName() {
         return name;
     }
 
     @Override
     public boolean isSame(@NonNull final AbsCell other) {
-        if (this.getViewType() != other.getViewType()) {
-            return false;
-        }
         return this.equals(other);
     }
 

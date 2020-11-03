@@ -9,18 +9,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.erya.application.AuditoriumAdapter.OnClickListener;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public final class AuditoriumFragment extends Fragment {
-    @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, @Nullable final Bundle savedInstanceState){
-       View v = inflater.inflate(R.layout.frag, null);
-       return v;
+    public AuditoriumFragment() {
+        super(R.layout.fragment_auditorium);
     }
 
     @Override
@@ -28,59 +32,44 @@ public final class AuditoriumFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         final Context context = requireContext();
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        final LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
         final AuditoriumViewModel auditoriumViewModel = new ViewModelProvider(this).get(AuditoriumViewModel.class);
-        System.out.println("11111");
 
-
-        auditoriumViewModel.reset(null);
-
-        auditoriumViewModel.getCells().observe(getViewLifecycleOwner(), new Observer<List<AbsCell>>() {
+        auditoriumViewModel.addCell(null);
+        auditoriumViewModel.getCellsLiveData().observe(lifecycleOwner, new Observer<List<AbsCell>>() {
 
             @Override
             public void onChanged(@Nullable final List<AbsCell> absCells) {
                 if (absCells == null) {
-                   return;
+                    return;
                 }
 
                 final RecyclerView.Adapter adapter = recyclerView.getAdapter();
                 if (adapter == null) {
 
-                    final AuditoriumAdapter myAdapter = new AuditoriumAdapter(absCells, LayoutInflater.from(context.getApplicationContext()), new AuditoriumAdapter.OnClickListener() {
-                        @Override
-                        public void onClickButton(AbsCell cell) {
-                            auditoriumViewModel.reset(cell);
-                        }
+                    final AuditoriumAdapter myAdapter = new AuditoriumAdapter(absCells, inflater, auditoriumViewModel);
 
-                        @Override
-                        public void onClickItem(String string) {
-                            auditoriumViewModel.SetErrorLiveData(string);
-                        }
-
-                        @Override
-                        public void onClickButClear() {
-                            auditoriumViewModel.clearCells();
-                        }
-                    });
                     recyclerView.setAdapter(myAdapter);
 
                 } else {
 
                     final AuditoriumAdapter myAdapter = (AuditoriumAdapter) adapter;
                     myAdapter.submitList(absCells);
-                    myAdapter.notifyDataSetChanged();
-                    System.out.println(absCells.toString());
+                   myAdapter.notifyDataSetChanged();
                 }
             }
         });
 
-        auditoriumViewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
+        auditoriumViewModel.getErrorLiveData().observe(lifecycleOwner, new Observer<String>() {
             @Override
             public void onChanged(@Nullable final String error) {
-                if (error == null)
+                if (error == null) {
                     return;
+                }
                 Snackbar.make(view, error, Snackbar.LENGTH_LONG).show();
             }
         });
