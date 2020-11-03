@@ -28,28 +28,21 @@ final class ButtonHolder extends AbsHolder {
         addButton = itemView.findViewById(R.id.button1);
         clearButton = itemView.findViewById(R.id.button2);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String name = nameEditText.getText().toString();
+        addButton.setOnClickListener(view -> {
+            final String name = nameEditText.getText().toString();
 
-                if (name.isEmpty()) {
-                    onClickListener.onClickError("Error: empty enter");
-                    return;
-                }
-
-                final AuditoriumCell audCell = new AuditoriumCell(name);
-                onClickListener.onClickButton(audCell);
-                nameEditText.setText(null);
+            if (name.isEmpty()) {
+                onClickListener.onClickError("Error: empty enter");
+                return;
             }
+            final AuditoriumCell audCell = new AuditoriumCell(name);
+            onClickListener.onClickButton(audCell);
+            nameEditText.setText(null);
         });
 
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickListener.onClickButClear();
-                nameEditText.setText(null);
-            }
+        clearButton.setOnClickListener(view -> {
+            onClickListener.onClickButClear();
+            nameEditText.setText(null);
         });
 
       nameTextWatcher = new TextWatcher() {

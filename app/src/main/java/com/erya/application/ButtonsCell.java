@@ -2,15 +2,17 @@ package com.erya.application;
 
 import androidx.annotation.NonNull;
 
-public class ButtonsCell extends AbsCell {
-    private String fieldText;
+public final class ButtonsCell extends AbsCell {
+    private final String fieldText;
 
-    ButtonsCell() {
+
+    ButtonsCell(final String fieldText) {
         super(ViewType.BUTTONS);
+        this.fieldText = fieldText;
     }
 
-    public void setNameFieldText(String text){
-        this.fieldText = text;
+    public ButtonsCell setNameFieldText(final String text){
+        return new ButtonsCell(text);
     }
 
     public String getNameFieldText(){

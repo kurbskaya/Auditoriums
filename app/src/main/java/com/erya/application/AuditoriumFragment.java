@@ -40,38 +40,29 @@ public final class AuditoriumFragment extends Fragment {
         final AuditoriumViewModel auditoriumViewModel = new ViewModelProvider(this).get(AuditoriumViewModel.class);
 
         auditoriumViewModel.addCell(null);
-        auditoriumViewModel.getCellsLiveData().observe(lifecycleOwner, new Observer<List<AbsCell>>() {
+        auditoriumViewModel.getCellsLiveData().observe(lifecycleOwner, absCells -> {
+            if (absCells == null) {
+                return;
+            }
 
-            @Override
-            public void onChanged(@Nullable final List<AbsCell> absCells) {
-                if (absCells == null) {
-                    return;
-                }
+            final RecyclerView.Adapter adapter = recyclerView.getAdapter();
+            if (adapter == null) {
 
-                final RecyclerView.Adapter adapter = recyclerView.getAdapter();
-                if (adapter == null) {
+                final AuditoriumAdapter myAdapter = new AuditoriumAdapter(absCells, inflater, auditoriumViewModel);
 
-                    final AuditoriumAdapter myAdapter = new AuditoriumAdapter(absCells, inflater, auditoriumViewModel);
+                recyclerView.setAdapter(myAdapter);
 
-                    recyclerView.setAdapter(myAdapter);
-
-                } else {
-
-                    final AuditoriumAdapter myAdapter = (AuditoriumAdapter) adapter;
-                    myAdapter.submitList(absCells);
-                   myAdapter.notifyDataSetChanged();
-                }
+            } else {
+                final AuditoriumAdapter myAdapter = (AuditoriumAdapter) adapter;
+                myAdapter.submitList(absCells);
             }
         });
 
-        auditoriumViewModel.getErrorLiveData().observe(lifecycleOwner, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable final String error) {
-                if (error == null) {
-                    return;
-                }
-                Snackbar.make(view, error, Snackbar.LENGTH_LONG).show();
+        auditoriumViewModel.getErrorLiveData().observe(lifecycleOwner, error -> {
+            if (error == null) {
+                return;
             }
+            Snackbar.make(view, error, Snackbar.LENGTH_LONG).show();
         });
 
     }

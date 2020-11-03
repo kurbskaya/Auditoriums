@@ -21,14 +21,11 @@ final public class AuditoriumHolder extends AbsHolder {
         super(inflater.inflate(R.layout.view_auditorium, parent, false));
         textView = itemView.findViewById(R.id.label);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cell == null) {
-                    return;
-                }
-                onClickListener.onClickItem(cell);
+        itemView.setOnClickListener(view -> {
+            if (cell == null) {
+                return;
             }
+            onClickListener.onClickItem(cell);
         });
     }
 

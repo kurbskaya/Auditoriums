@@ -2,7 +2,6 @@ package com.erya.application;
 
 import androidx.annotation.NonNull;
 
-
 public abstract class AbsCell implements Diffable<AbsCell> {
     public enum ViewType {
         BUTTONS,

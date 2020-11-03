@@ -3,7 +3,7 @@ package com.erya.application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-final public class AuditoriumCell extends AbsCell {
+public final class AuditoriumCell extends AbsCell {
     @NonNull
     public final String name;
 
