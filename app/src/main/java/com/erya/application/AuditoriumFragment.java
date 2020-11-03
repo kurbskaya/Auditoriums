@@ -39,7 +39,7 @@ public final class AuditoriumFragment extends Fragment {
 
         final AuditoriumViewModel auditoriumViewModel = new ViewModelProvider(this).get(AuditoriumViewModel.class);
 
-        auditoriumViewModel.addCell(null);
+       // auditoriumViewModel.addButtonCell();
         auditoriumViewModel.getCellsLiveData().observe(lifecycleOwner, absCells -> {
             if (absCells == null) {
                 return;

@@ -16,27 +16,27 @@ public final class AuditoriumViewModel extends ViewModel implements AuditoriumAd
     private final SingleEventLiveData<String> errorLiveData = new SingleEventLiveData<>();
     private final MutableLiveData<List<AbsCell>> cellsLiveData = new MutableLiveData<>();
 
-    public void setErrorLiveData(String string){
+    public AuditoriumViewModel(){
+        resetCells();
+    }
+
+    public void setErrorLiveData(@NonNull final String string){
         errorLiveData.setValue(string);
     }
 
-    public void addCell(@Nullable final AbsCell absCell){
-        final ButtonsCell buttonsCell = new ButtonsCell(null);
+    public void addCell(@NonNull final AbsCell audCell){
         final List<AbsCell> oldList = cellsLiveData.getValue();
-        if (oldList == null) {
-            final  List<AbsCell> tmp = new ArrayList<>();
-            tmp.add(buttonsCell);
-            cellsLiveData.setValue(tmp);
+        if (oldList == null){
+            resetCells();
             return;
         }
-        if (absCell ==null) { return; }
         final List<AbsCell> tmp = new ArrayList<>(oldList);
-        tmp.add(absCell);
+        tmp.add(audCell);
         cellsLiveData.setValue(tmp);
     }
 
-    @NonNull
-    public void clearCells() {
+
+    public void resetCells() {
         final ButtonsCell buttonsCell = new ButtonsCell(null);
         final List<AbsCell> tmp = new ArrayList<>();
 
@@ -67,20 +67,20 @@ public final class AuditoriumViewModel extends ViewModel implements AuditoriumAd
 
     @Override
     public void onClickButClear() {
-        this.clearCells();
+        this.resetCells();
     }
 
     @Override
-    public void onNameTextChanged(final String text){
+    public void onNameTextChanged(@NonNull final String text){
         final List<AbsCell> oldList = cellsLiveData.getValue();
         if (oldList == null){
             return;
         }
         final ButtonsCell cell = (ButtonsCell) oldList.get(0);
 
-       final List<AbsCell> newList = new ArrayList<>(oldList);
-       newList.set(0, cell.setNameFieldText(text));
-       cellsLiveData.setValue(newList);
+        final List<AbsCell> newList = new ArrayList<>(oldList);
+        newList.set(0, cell.setNameFieldText(text));
+        cellsLiveData.setValue(newList);
     }
 
     @Override

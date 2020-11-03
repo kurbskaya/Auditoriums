@@ -17,7 +17,7 @@ final public class AuditoriumHolder extends AbsHolder {
 
     AuditoriumHolder(@NonNull final LayoutInflater inflater,
                      @NonNull final ViewGroup parent,
-                     final AuditoriumAdapter.OnClickListener onClickListener) {
+                     @NonNull final AuditoriumAdapter.OnClickListener onClickListener) {
         super(inflater.inflate(R.layout.view_auditorium, parent, false));
         textView = itemView.findViewById(R.id.label);
 
